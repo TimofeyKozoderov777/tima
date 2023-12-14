@@ -1,0 +1,168 @@
+USE [tima]
+GO
+/****** Object:  Table [dbo].[EquipmentTypes]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EquipmentTypes](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[EqimentType] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_EquipmentTypes] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Orders]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Orders](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ID_Client] [int] NOT NULL,
+	[ID_TypeEquipment] [int] NULL,
+	[ID_TypeProblem] [int] NOT NULL,
+	[ID_Technician] [int] NOT NULL,
+	[ID_Manager] [int] NULL,
+	[ID_Status] [int] NOT NULL,
+	[DateOrderOpen] [date] NOT NULL,
+	[DateOrderClose] [date] NULL,
+	[Comment] [varchar](200) NULL,
+	[Photo] [varchar](50) NULL,
+ CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ProblemTypes]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ProblemTypes](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ProblemType] [varchar](50) NOT NULL,
+	[Description] [varchar](100) NULL,
+ CONSTRAINT [PK_ProblemTypes] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Roles]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Roles](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[RoleName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Statuses]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Statuses](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[StatusName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Statuses] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Technicians]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Technicians](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ID_user] [int] NOT NULL,
+	[ID_TypeEquipment_1] [int] NULL,
+	[ID_TypeEquipment_2] [int] NULL,
+	[ID_TypeEquipment_3] [int] NULL,
+	[OtherSkills] [varchar](50) NULL,
+	[ProfileLink] [varchar](50) NULL,
+ CONSTRAINT [PK_Technicians] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 14.11.2023 19:26:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Login] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[LastName] [varchar](50) NOT NULL,
+	[Nikname] [varchar](50) NOT NULL,
+	[Mail] [varchar](100) NOT NULL,
+	[Phone] [varchar](12) NOT NULL,
+	[RegisterDate] [datetime] NOT NULL,
+	[ID_role] [int] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_EquipmentTypes] FOREIGN KEY([ID_TypeEquipment])
+REFERENCES [dbo].[EquipmentTypes] ([ID])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_EquipmentTypes]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_ProblemTypes] FOREIGN KEY([ID_TypeProblem])
+REFERENCES [dbo].[ProblemTypes] ([ID])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_ProblemTypes]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Statuses] FOREIGN KEY([ID_Status])
+REFERENCES [dbo].[Statuses] ([ID])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Statuses]
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_Technicians] FOREIGN KEY([ID_Technician])
+REFERENCES [dbo].[Technicians] ([ID])
+GO
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Technicians]
+GO
+ALTER TABLE [dbo].[Technicians]  WITH CHECK ADD  CONSTRAINT [FK_Technicians_EquipmentTypes] FOREIGN KEY([ID_TypeEquipment_1])
+REFERENCES [dbo].[EquipmentTypes] ([ID])
+GO
+ALTER TABLE [dbo].[Technicians] CHECK CONSTRAINT [FK_Technicians_EquipmentTypes]
+GO
+ALTER TABLE [dbo].[Technicians]  WITH CHECK ADD  CONSTRAINT [FK_Technicians_EquipmentTypes1] FOREIGN KEY([ID_TypeEquipment_2])
+REFERENCES [dbo].[EquipmentTypes] ([ID])
+GO
+ALTER TABLE [dbo].[Technicians] CHECK CONSTRAINT [FK_Technicians_EquipmentTypes1]
+GO
+ALTER TABLE [dbo].[Technicians]  WITH CHECK ADD  CONSTRAINT [FK_Technicians_EquipmentTypes2] FOREIGN KEY([ID_TypeEquipment_3])
+REFERENCES [dbo].[EquipmentTypes] ([ID])
+GO
+ALTER TABLE [dbo].[Technicians] CHECK CONSTRAINT [FK_Technicians_EquipmentTypes2]
+GO
+ALTER TABLE [dbo].[Technicians]  WITH CHECK ADD  CONSTRAINT [FK_Technicians_Users] FOREIGN KEY([ID_user])
+REFERENCES [dbo].[Users] ([ID])
+GO
+ALTER TABLE [dbo].[Technicians] CHECK CONSTRAINT [FK_Technicians_Users]
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [FK_Users_Roles] FOREIGN KEY([ID_role])
+REFERENCES [dbo].[Roles] ([ID])
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Roles]
+GO

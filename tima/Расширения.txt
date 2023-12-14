@@ -1,0 +1,3 @@
+EF Core
+EF MS SQL Core
+EF MS SQL Tools

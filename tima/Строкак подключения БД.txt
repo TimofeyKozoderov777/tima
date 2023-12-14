@@ -1,0 +1,1 @@
+Scaffold-DbContext "Server=TIMOXA;Database=tima;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer
